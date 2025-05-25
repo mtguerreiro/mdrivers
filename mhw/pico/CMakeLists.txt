@@ -15,6 +15,7 @@ target_sources(
     my_hw
     PRIVATE
     led/ledws2812.c
+    led/ledpwm.c
 )
 
 target_link_libraries(
