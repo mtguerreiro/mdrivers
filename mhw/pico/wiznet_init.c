@@ -9,9 +9,9 @@
 #include "pico/sync.h"
 #include "pico/unique_id.h"
 
-#include "tif/c/drivers/wiznet/dhcp.h"
-#include "tif/c/drivers/wiznet/socket.h"
-#include "tif/c/drivers/wiznet/wizchip_conf.h"
+#include "mdrivers/wiznet/dhcp.h"
+#include "mdrivers/wiznet/socket.h"
+#include "mdrivers/wiznet/wizchip_conf.h"
 //=============================================================================
 
 //=============================================================================

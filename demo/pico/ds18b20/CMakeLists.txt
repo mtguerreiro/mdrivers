@@ -13,7 +13,7 @@ target_link_libraries(
 target_include_directories(
     ds18b20
     PRIVATE
-   "${MDRIVERS_PATH}"
+   ${MDRIVERS_PATH}
 )
 
 # enable usb output, disable uart output

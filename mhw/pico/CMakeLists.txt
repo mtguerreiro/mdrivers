@@ -8,6 +8,7 @@ target_sources(
     temperatureHw.c
     pwm_irq_handler.c
     onewirehl.c
+    wiznet_init.c
 )
 
 target_link_libraries(
