@@ -11,6 +11,12 @@ target_sources(
     wiznet_init.c
 )
 
+target_sources(
+    my_hw
+    PRIVATE
+    led/ledws2812.c
+)
+
 target_link_libraries(
     my_hw
     PRIVATE
@@ -26,6 +32,7 @@ target_include_directories(
     my_hw
     PRIVATE
     "${MDRIVERS_PATH}"
+    ./
 )
 
 pico_generate_pio_header(my_hw ${CMAKE_CURRENT_LIST_DIR}/ws2812.pio OUTPUT_DIR ${CMAKE_CURRENT_LIST_DIR}/generated)

@@ -1,6 +1,6 @@
 
-#ifndef PICO_LED_HW_H_
-#define PICO_LED_HW_H_
+#ifndef PICO_LED_WS1812_H_
+#define PICO_LED_WS1812_H_
 
 //=============================================================================
 /*-------------------------------- Includes ---------------------------------*/
@@ -12,47 +12,22 @@
 //=============================================================================
 /*------------------------------- Definitions -------------------------------*/
 //=============================================================================
-typedef enum{
 
-    /**
-     * Command
-     *  ----------------------------------------------------------
-     *  | SET NUMBER ACTIVE LEDS (uint32) | NUMBER LEDS (uint32) |
-     *  ----------------------------------------------------------
-     *
-     * Response
-     *  -------------------
-     *  | STATUS (uint32) |
-     *  -------------------
-     * 
-     * Notes
-     *  - STATUS is zero if required number of active leds was valid, and and
-     *    error code otherwise.
-     */
-	LED_HW_IF_SET_NUMBER_ACTIVE_LEDS = 0,
-
-	LED_HW_IF_END
-}ledHwIfCmds_t;
-
-#define LED_HW_CFG_MAX_ACTIVE_LEDS  15
+#define LED_WS2812_CFG_MAX_ACTIVE_LEDS  15
 //=============================================================================
 
 //=============================================================================
 /*-------------------------------- Functions --------------------------------*/
 //=============================================================================
 //-----------------------------------------------------------------------------
-int32_t ledHwInitialize(void);
+int32_t ledws2812Initialize(void);
 //-----------------------------------------------------------------------------
-uint32_t ledHwGetNumberLeds(void);
+uint32_t ledws2812GetNumberLeds(void);
 //-----------------------------------------------------------------------------
-int32_t ledHwSetIntensity(uint8_t led, uint8_t intensity, uint32_t to);
+int32_t ledws2812SetIntensity(uint8_t led, uint8_t intensity, uint32_t to);
 //-----------------------------------------------------------------------------
-int32_t ledHwSetColor(uint8_t led, uint8_t red, uint8_t green, uint8_t blue, uint32_t to);
-//-----------------------------------------------------------------------------
-int32_t ledHwInterface(
-    void *in, uint32_t insize, 
-    void **out, uint32_t maxoutsize);
+int32_t ledws2812SetColor(uint8_t led, uint8_t red, uint8_t green, uint8_t blue, uint32_t to);
 //-----------------------------------------------------------------------------
 //=============================================================================
 
-#endif /* PICO_LED_HW_H_ */
+#endif /* PICO_LED_WS1812_H_ */
