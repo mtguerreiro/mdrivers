@@ -17,7 +17,7 @@
 //=============================================================================
 
 /* SPI configs */
-#define WIZNET_INIT_CFG_SPI			    PICO_DEFAULT_SPI_INSTANCE	
+#define WIZNET_INIT_CFG_SPI			    PICO_DEFAULT_SPI
 #define WIZNET_INIT_CFG_SPI_CLK		    2 * 1000 * 1000 /* Clock is in Hz */
 #define WIZNET_INIT_CFG_SPI_SCK_PIN	    PICO_DEFAULT_SPI_SCK_PIN
 #define WIZNET_INIT_CFG_SPI_TX_PIN	    PICO_DEFAULT_SPI_TX_PIN
