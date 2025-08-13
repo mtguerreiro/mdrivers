@@ -17,16 +17,16 @@
 //=============================================================================
 
 /* SPI configs */
-#define WIZNET_INIT_CFG_SPI			    PICO_DEFAULT_SPI
-#define WIZNET_INIT_CFG_SPI_CLK		    2 * 1000 * 1000 /* Clock is in Hz */
-#define WIZNET_INIT_CFG_SPI_SCK_PIN	    PICO_DEFAULT_SPI_SCK_PIN
-#define WIZNET_INIT_CFG_SPI_TX_PIN	    PICO_DEFAULT_SPI_TX_PIN
-#define WIZNET_INIT_CFG_SPI_RX_PIN	    PICO_DEFAULT_SPI_RX_PIN
-#define WIZNET_INIT_CFG_SPI_CSN_PIN	    PICO_DEFAULT_SPI_CSN_PIN
+#define WIZNET_INIT_CFG_SPI             spi0
+#define WIZNET_INIT_CFG_SPI_CLK         10 * 1000 * 1000 /* Clock is in Hz */
+#define WIZNET_INIT_CFG_SPI_SCK_PIN     18
+#define WIZNET_INIT_CFG_SPI_TX_PIN      19
+#define WIZNET_INIT_CFG_SPI_RX_PIN      16
+#define WIZNET_INIT_CFG_SPI_CSN_PIN     17
 #define WIZNET_INIT_CFG_RST_PIN         20
 
 /* If DHCP is set to 1, DHCP is used. Otherwise, static IP */
-#define WIZNET_INIT_CFG_USE_DHCP		1
+#define WIZNET_INIT_CFG_USE_DHCP        1
 
 /* Prints debugging info if enabled */
 #define WIZNET_INIT_CFG_DBG             1
