@@ -72,7 +72,7 @@ int32_t tcpServerEchoRun(uint8_t sn, uint8_t* buf, uint32_t size, uint16_t port)
 #endif
          if((ret = socket(sn, Sn_MR_TCP, port, SF_TCP_NODELAY)) != sn) return ret;
 #if TCP_SERVER_ECHO_CFG_DEBUG == 1
-         printf("%s (sn %d): Socket opened\r\n", __func__, sn, port);
+         printf("%s (sn %d): Socket opened, port [%d]\r\n", __func__, sn, port);
 #endif
          break;
       default:

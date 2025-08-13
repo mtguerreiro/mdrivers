@@ -176,6 +176,7 @@ static int32_t ledws2812SetNumberActiveLeds(uint32_t nleds){
 //-----------------------------------------------------------------------------
 static int32_t ledws2812IfSetNumberActiveLeds(void *in, uint32_t insize, void **out, uint32_t maxoutsize){
 
+    (void)maxoutsize;
     int32_t status;
 
     uint32_t nleds = *( (uint32_t *)in );
@@ -194,7 +195,7 @@ static void ledws2812UpdateColorPwmIrq(void){
     uint32_t k;
     static uint32_t activeLeds = 1;
     static int state = LED_WS2812_SM_STATE_SET;
-    uint16_t pwmPeriod;
+    uint16_t pwmPeriod = LED_WS2812_CONFIG_LED_UPDATE_PER;
 
 #if LED_WS2812_CONFIG_DBG == 1
     gpio_put(LED_WS2812_CONFIG_DBG_PIN, 1);

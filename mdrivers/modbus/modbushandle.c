@@ -99,7 +99,7 @@ int32_t modbusHandleInitialize(modbusHandleConfig_t *config){
     nmbs_error err = nmbs_server_create(&nmbs, 0, &platform_conf, &callbacks);
     if (err != NMBS_ERROR_NONE) {
 #if MODBUS_HANDLE_CFG_DEBUG == 1
-        printf("Error creating modbus server. Error: &d\n\r", err);
+        printf("Error creating modbus server. Error: %d\n\r", err);
 #endif
         return err;
     }

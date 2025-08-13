@@ -19,7 +19,6 @@
 //=============================================================================
 static void wiznetInitW5500(wiznetInitLock_t lock, wiznetInitLock_t unlock);
 static void wiznetInitW5500DHCP(void);
-static void wiznetInitTimer(void);
 
 static inline void wiznetInitW5500ChipSelect() {
     asm volatile("nop \n nop \n nop");
