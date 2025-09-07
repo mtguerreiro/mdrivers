@@ -46,8 +46,11 @@ int32_t onewirehlInitialize(void *gpio, uint8_t pin){
 int32_t onewirehlReset(uint32_t to){
 
     (void)to;
+    bool status;
 
-    ow_reset(&ow);
+    status = ow_reset(&ow);
+
+    if( status == false) return -1;
 
     return 0;
 }
