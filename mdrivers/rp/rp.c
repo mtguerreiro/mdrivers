@@ -9,6 +9,7 @@
 //=============================================================================
 #include "rp.h"
 
+#include "string.h"
 //=============================================================================
 
 //=============================================================================
@@ -24,43 +25,43 @@
 //-----------------------------------------------------------------------------
 void rpInitialize(rpctx_t *rp, rpuint_t maxid, rphandle_t *buffer){
 
-	uint32_t i;
+    uint32_t i;
 
-	rp->handle = buffer;
-	rp->maxid = maxid;
+    rp->handle = buffer;
+    rp->maxid = maxid;
 
-	for( i = 0; i < maxid; i++ ){
-		rp->handle[i] = 0;
-	}
-
+    for( i = 0; i < maxid; i++ ){
+        rp->handle[i] = 0;
+    }
 }
 //-----------------------------------------------------------------------------
 rpint_t rpRegisterHandle(rpctx_t *rp, rpid_t id, rphandle_t handle){
 
-	if( id >= rp->maxid ) return RP_ERR_INVALID_ID;
+    if( id >= rp->maxid ) return RP_ERR_INVALID_ID;
 
-	rp->handle[id] = handle;
+    rp->handle[id] = handle;
 
-	return 0;
+    return 0;
 }
 //-----------------------------------------------------------------------------
 rpint_t rpRequest(rpctx_t *rp, void *in, rpuint_t insize, void **out, rpuint_t maxoutsize){
 
-	rpint_t status;
+    char *p;
+    rpint_t status;
+    rpuint_t cmd;
 
-	rpuint_t cmd;
-	rpuint_t *p;
+    if( insize < sizeof(cmd) ) return RP_ERR_INVALID_SIZE;
 
-	p = (rpuint_t *)( in );
-	cmd = *p++;
+    memcpy( (void *)&cmd, in, sizeof(cmd) );
 
-	if( cmd >= rp->maxid ) return RP_ERR_INVALID_ID;
+    if( cmd >= rp->maxid ) return RP_ERR_INVALID_ID;
 
-	if( rp->handle[cmd] == 0 ) return RP_ERR_NO_HANDLE;
+    if( rp->handle[cmd] == 0 ) return RP_ERR_NO_HANDLE;
 
-	status = rp->handle[cmd]( (void *)( p ), insize - sizeof(rpuint_t), out, maxoutsize);
+    p = (char *)in + sizeof(cmd);
+    status = rp->handle[cmd]( (void *)p, insize - sizeof(cmd), out, maxoutsize);
 
-	return status;
+    return status;
 }
 //-----------------------------------------------------------------------------
 //=============================================================================

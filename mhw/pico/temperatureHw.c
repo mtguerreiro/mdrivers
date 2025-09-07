@@ -7,7 +7,7 @@
 //=============================================================================
 #include "temperatureHw.h"
 
-#include "onewirehl.h"
+#include "mhw/pico/onewire/onewirehl.h"
 #include "mdrivers/ds18b20/ds18b20.h"
 //=============================================================================
 

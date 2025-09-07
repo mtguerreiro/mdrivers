@@ -75,8 +75,9 @@ typedef struct rpctx_t{
 	rphandle_t *handle; /*!< Pointer to vector to hold the callback functions */
 }rpctx_t;
 
-#define RP_ERR_INVALID_ID	-1	/*!< Received ID is invalid */
-#define RP_ERR_NO_HANDLE	-2	/*!< No handle assigned to received ID */
+#define RP_ERR_INVALID_ID   -1  /*!< Received ID is invalid */
+#define RP_ERR_NO_HANDLE    -2  /*!< No handle assigned to received ID */
+#define RP_ERR_INVALID_SIZE -3  /*!< Size of command received is less than expected */
 //=============================================================================
 
 //=============================================================================

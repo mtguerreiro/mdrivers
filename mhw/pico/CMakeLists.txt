@@ -7,7 +7,8 @@ target_sources(
     PRIVATE
     temperatureHw.c
     pwm_irq_handler.c
-    onewirehl.c
+    onewire/onewirehl.c
+    onewire/onewire.c
     wiznet_init.c
 )
 
@@ -37,3 +38,5 @@ target_include_directories(
 )
 
 pico_generate_pio_header(my_hw ${CMAKE_CURRENT_LIST_DIR}/ws2812.pio OUTPUT_DIR ${CMAKE_CURRENT_LIST_DIR}/generated)
+
+pico_generate_pio_header(my_hw ${CMAKE_CURRENT_LIST_DIR}/onewire.pio OUTPUT_DIR ${CMAKE_CURRENT_LIST_DIR}/generated)
