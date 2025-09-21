@@ -6,6 +6,7 @@ target_sources(
     my_hw
     PRIVATE
     ledpwm.c
+    temperatureDs18b20.c
 )
 
 target_link_libraries(
