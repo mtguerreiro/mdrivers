@@ -68,7 +68,7 @@ int32_t tcpServerRun(uint8_t sn, uint16_t port, tcpServerHandle_t handle){
 #endif
          if((ret = socket(sn, Sn_MR_TCP, port, SF_TCP_NODELAY)) != sn) return ret;
 #if TCP_SERVER_CFG_DEBUG == 1
-         printf("%s (sn %d): Socket opened\r\n", __func__, sn, port);
+         printf("%s (sn %d): Socket opened\r\n", __func__, sn);
 #endif
          break;
       default:

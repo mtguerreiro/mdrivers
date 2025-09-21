@@ -602,17 +602,17 @@ int8_t parseDHCPMSG(void)
    #endif   
    }
    else return 0;
-	if (svr_port == DHCP_SERVER_PORT) {
-      // compare mac address
-		if ( (pDHCPMSG->chaddr[0] != DHCP_CHADDR[0]) || (pDHCPMSG->chaddr[1] != DHCP_CHADDR[1]) ||
-		     (pDHCPMSG->chaddr[2] != DHCP_CHADDR[2]) || (pDHCPMSG->chaddr[3] != DHCP_CHADDR[3]) ||
-		     (pDHCPMSG->chaddr[4] != DHCP_CHADDR[4]) || (pDHCPMSG->chaddr[5] != DHCP_CHADDR[5])   )
-		{
-#ifdef _DHCP_DEBUG_
-            printf("No My DHCP Message. This message is ignored.\r\n");
-#endif
-         return 0;
-		}
+   if (svr_port == DHCP_SERVER_PORT) {
+       // compare mac address
+       if ( (pDHCPMSG->chaddr[0] != DHCP_CHADDR[0]) || (pDHCPMSG->chaddr[1] != DHCP_CHADDR[1]) ||
+           (pDHCPMSG->chaddr[2] != DHCP_CHADDR[2]) || (pDHCPMSG->chaddr[3] != DHCP_CHADDR[3]) ||
+           (pDHCPMSG->chaddr[4] != DHCP_CHADDR[4]) || (pDHCPMSG->chaddr[5] != DHCP_CHADDR[5])   )
+       {
+           #ifdef _DHCP_DEBUG_
+           printf("No My DHCP Message. This message is ignored.\r\n");
+           #endif
+           return 0;
+       }
         //compare DHCP server ip address
         if((DHCP_SIP[0]!=0) || (DHCP_SIP[1]!=0) || (DHCP_SIP[2]!=0) || (DHCP_SIP[3]!=0)){
             if( ((svr_addr[0]!=DHCP_SIP[0])|| (svr_addr[1]!=DHCP_SIP[1])|| (svr_addr[2]!=DHCP_SIP[2])|| (svr_addr[3]!=DHCP_SIP[3])) &&

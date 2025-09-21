@@ -194,8 +194,9 @@ int32_t modbusHandleAssignCallback(uint16_t id, uint16_t address, uint16_t range
 }
 //---------------------------------------------------------------------------
 static nmbs_error modbusHandleReadCoils(uint16_t address, uint16_t quantity, nmbs_bitfield coils_out, uint8_t unit_id, void* arg) {
-    //UNUSED_PARAM(arg);
-    //UNUSED_PARAM(unit_id);
+
+    (void)unit_id;
+    (void)arg;
 
     if (address + quantity > MODBUS_HANDLE_CFG_COILS_ADDR_MAX + 1)
         return NMBS_EXCEPTION_ILLEGAL_DATA_ADDRESS;
@@ -210,8 +211,9 @@ static nmbs_error modbusHandleReadCoils(uint16_t address, uint16_t quantity, nmb
 }
 //---------------------------------------------------------------------------
 static nmbs_error modbusHandleWriteSingleCoil(uint16_t address, bool value, uint8_t unit_id, void* arg) {
-    //UNUSED_PARAM(arg);
-    //UNUSED_PARAM(unit_id);
+
+    (void)unit_id;
+    (void)arg;
 
     // Write coil value to our server_coils
     if (address > MODBUS_HANDLE_CFG_COILS_ADDR_MAX + 1)
@@ -222,10 +224,10 @@ static nmbs_error modbusHandleWriteSingleCoil(uint16_t address, bool value, uint
     return NMBS_ERROR_NONE;
 }
 //---------------------------------------------------------------------------
-static nmbs_error modbusHandleWriteMultipleCoils(uint16_t address, uint16_t quantity, const nmbs_bitfield coils, uint8_t unit_id,
-                                       void* arg) {
-    //UNUSED_PARAM(arg);
-    //UNUSED_PARAM(unit_id);
+static nmbs_error modbusHandleWriteMultipleCoils(uint16_t address, uint16_t quantity, const nmbs_bitfield coils, uint8_t unit_id, void* arg) {
+
+    (void)unit_id;
+    (void)arg;
 
     if (address + quantity > MODBUS_HANDLE_CFG_COILS_ADDR_MAX + 1)
         return NMBS_EXCEPTION_ILLEGAL_DATA_ADDRESS;
@@ -238,10 +240,10 @@ static nmbs_error modbusHandleWriteMultipleCoils(uint16_t address, uint16_t quan
     return NMBS_ERROR_NONE;
 }
 //---------------------------------------------------------------------------
-static nmbs_error modbusHandleReadHoldingRegisters(uint16_t address, uint16_t quantity, uint16_t* registers_out, uint8_t unit_id,
-                                          void* arg) {
-    //UNUSED_PARAM(arg);
-    //UNUSED_PARAM(unit_id);
+static nmbs_error modbusHandleReadHoldingRegisters(uint16_t address, uint16_t quantity, uint16_t* registers_out, uint8_t unit_id, void* arg) {
+
+    (void)unit_id;
+    (void)arg;
 
     if (address + quantity > MODBUS_HANDLE_CFG_REGS_ADDR_MAX + 1)
         return NMBS_EXCEPTION_ILLEGAL_DATA_ADDRESS;
@@ -254,8 +256,9 @@ static nmbs_error modbusHandleReadHoldingRegisters(uint16_t address, uint16_t qu
 }
 //---------------------------------------------------------------------------
 static nmbs_error modbusHandleWriteSingleRegister(uint16_t address, uint16_t value, uint8_t unit_id, void* arg) {
-    //UNUSED_PARAM(arg);
-    //UNUSED_PARAM(unit_id);
+
+    (void)unit_id;
+    (void)arg;
 
     uint16_t k;
     uint16_t aHigh;
@@ -275,17 +278,13 @@ static nmbs_error modbusHandleWriteSingleRegister(uint16_t address, uint16_t val
             callbacks.cb[k]( (const uint16_t *) &modbusServerRegisters[callbacks.address[k]] );
     }
 
-    // put_pixel(urgb_u32(server_registers[1], server_registers[2], server_registers[3]));
-    // put_pixel(urgb_u32(server_registers[1], server_registers[2], server_registers[3]));
-    // put_pixel(urgb_u32(server_registers[1], server_registers[2], server_registers[3]));
-
     return NMBS_ERROR_NONE;
 }
 //---------------------------------------------------------------------------
-static nmbs_error modbusHandleWriteMultipleRegisters(uint16_t address, uint16_t quantity, const uint16_t* registers,
-                                           uint8_t unit_id, void* arg) {
-    //UNUSED_PARAM(arg);
-    //UNUSED_PARAM(unit_id);
+static nmbs_error modbusHandleWriteMultipleRegisters(uint16_t address, uint16_t quantity, const uint16_t* registers, uint8_t unit_id, void* arg) {
+
+    (void)unit_id;
+    (void)arg;
 
     if (address + quantity > MODBUS_HANDLE_CFG_REGS_ADDR_MAX + 1)
         return NMBS_EXCEPTION_ILLEGAL_DATA_ADDRESS;

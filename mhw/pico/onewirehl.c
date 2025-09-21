@@ -148,6 +148,8 @@ static void onewirehlTimerHandler(void);
 //---------------------------------------------------------------------------
 int32_t onewirehlInitialize(void *gpio, uint8_t pin){
 
+    (void)gpio;
+
 	onewirehlGPIOConfigInit(pin);
 
 	onewirehlInitializeTimer();

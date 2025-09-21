@@ -206,6 +206,8 @@ static void wiznetInitSPIBurstWrite(uint8_t *data, uint16_t size){
 //-----------------------------------------------------------------------------
 static bool wiznetInitDhcpTimer(struct repeating_timer *t){
 
+    (void) t;
+
     DHCP_time_handler();
 
     return true;

@@ -35,7 +35,7 @@ int32_t ledRegister(ledDriver_t *driver, uint32_t to){
     if( n >= LED_CFG_MAX_LEDS ) return LED_ERROR_MAX_REACHED;
 
     leds[n] = *driver;
-    idx = n;
+    idx = (int32_t) n;
     n++;
 
     if( unlock && (unlock() != 0) )
@@ -50,7 +50,7 @@ int32_t ledSetIntensity(int32_t idx, void*p, uint8_t intensity, uint32_t to){
         return LED_ERROR_LOCK;
 
     if( idx < 0 ) return LED_ERROR_INVALID_IDX;
-    if( idx >= n ) return LED_ERROR_MAX_REACHED;
+    if( idx >= (int32_t) n ) return LED_ERROR_MAX_REACHED;
 
     if( leds[idx].setIntensity )
         leds[idx].setIntensity(p, intensity);
@@ -67,7 +67,7 @@ int32_t ledSetColor(int32_t idx, void*p, uint8_t r, uint8_t g, uint8_t b, uint32
         return LED_ERROR_LOCK;
 
     if( idx < 0 ) return LED_ERROR_INVALID_IDX;
-    if( idx >= n ) return LED_ERROR_MAX_REACHED;
+    if( idx >= (int32_t) n ) return LED_ERROR_MAX_REACHED;
 
     if( leds[idx].setColor )
         leds[idx].setColor(p, r, g, b);

@@ -39,7 +39,7 @@ int32_t temperatureRegister(temperatureDriver_t *driver, uint32_t to){
     if( n >= TEMPERATURE_CFG_MAX_SENSORS ) return TEMPERATURE_ERROR_MAX_REACHED;
 
     sensors[n] = *driver;
-    idx = n;
+    idx = (int32_t) n;
     n++;
 
     if( unlock && (unlock() != 0) )
@@ -56,7 +56,7 @@ int32_t temperatureUpdate(int32_t idx, void *p, uint32_t to){
         return TEMPERATURE_ERROR_LOCK;
 
     if( idx < 0 ) return TEMPERATURE_ERROR_INVALID_IDX;
-    if( idx >= n ) return TEMPERATURE_ERROR_MAX_REACHED;
+    if( idx >= (int32_t) n ) return TEMPERATURE_ERROR_MAX_REACHED;
 
     if( sensors[idx].update )
         status = sensors[idx].update(p);
@@ -75,7 +75,7 @@ int32_t temperatureRead(int32_t idx, void *p, int32_t *temp, uint32_t to){
         return TEMPERATURE_ERROR_LOCK;
 
     if( idx < 0 ) return TEMPERATURE_ERROR_INVALID_IDX;
-    if( idx >= n ) return TEMPERATURE_ERROR_MAX_REACHED;
+    if( idx >= (int32_t) n ) return TEMPERATURE_ERROR_MAX_REACHED;
 
     if( sensors[idx].read )
         status = sensors[idx].read(p, temp);
