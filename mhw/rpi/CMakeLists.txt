@@ -5,7 +5,7 @@ add_library(my_hw)
 target_sources(
     my_hw
     PRIVATE
-    led/ledpwm.c
+    ledpwm.c
 )
 
 target_link_libraries(
@@ -17,7 +17,6 @@ target_link_libraries(
 
 target_include_directories(
     my_hw
-    PRIVATE
-    "${MDRIVERS_PATH}"
+    PUBLIC
     ./
 )

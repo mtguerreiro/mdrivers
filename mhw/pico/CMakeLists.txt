@@ -33,7 +33,6 @@ target_include_directories(
     my_hw
     PRIVATE
     "${MDRIVERS_PATH}"
-    ./
 )
 
 target_include_directories(

@@ -38,15 +38,9 @@ int32_t ledpwmInitialize(void){
     return 0;
 }
 //-----------------------------------------------------------------------------
-uint32_t ledpwmGetNumberLeds(void){
+int32_t ledpwmSetIntensity(void *p, uint8_t intensity){
 
-    return 1;
-}
-//-----------------------------------------------------------------------------
-int32_t ledpwmSetIntensity(uint8_t led, uint8_t intensity, uint32_t to){
-
-    (void) led;
-    (void) to;
+    (void) p;
 
     gpioPWM(LED_PWM_CONFIG_PWM_PIN, intensity);
 
