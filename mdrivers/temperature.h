@@ -3,8 +3,8 @@
  *
  */
 
-#ifndef TEMPERATURE_H_
-#define TEMPERATURE_H_
+#ifndef MDRIVERS_TEMPERATURE_H_
+#define MDRIVERS_TEMPERATURE_H_
 
 //=============================================================================
 /*-------------------------------- Includes ---------------------------------*/
@@ -16,27 +16,24 @@
 //=============================================================================
 /*------------------------------- Definitions -------------------------------*/
 //=============================================================================
-typedef int32_t (*temperatureHwTempUpdate_t)(uint32_t sensor);
-typedef int32_t (*temperatureHwTempGet_t)(uint32_t sensor, int32_t *temp);
-typedef int32_t (*temperatureHwGetNumberSensors_t)(void);
-typedef int32_t (*temperatureLock_t)(uint32_t to);
-typedef void (*temperatureUnlock_t)(void);
+#define TEMPERATURE_CFG_MAX_SENSORS      2
+#define TEMPERATURE_ERROR_LOCK          -1 /** Unable to obtain lock */
+#define TEMPERATURE_ERROR_UNLOCK        -2 /** Unable to unlock */
+#define TEMPERATURE_ERROR_GET           -3 /** Unable to get temperature */
+#define TEMPERATURE_ERROR_UPDATE        -4 /** Unable to update temperature */
+#define TEMPERATURE_ERROR_MAX_REACHED   -5 /** Unable to register new driver */
+#define TEMPERATURE_ERROR_INVALID_IDX   -6 /** Invalid index */
 
 typedef struct{
-
-    temperatureHwTempUpdate_t hwTempUpdate;
-    temperatureHwTempGet_t hwTempGet;
-    temperatureHwGetNumberSensors_t hwGetNumberSensors;
-
-    temperatureLock_t lock;
-    temperatureUnlock_t unlock;
-
+    int32_t (*lock)(uint32_t timeout);
+    int32_t (*unlock)(void);
 }temperatureConfig_t;
 
-#define TEMPERATURE_ERROR_LOCK      -1 /** Unable to obtain lock */
-#define TEMPERATURE_ERROR_UNLOCK    -2 /** Unable to unlock */
-#define TEMPERATURE_ERROR_GET       -3 /** Unable to get temperature */
-#define TEMPERATURE_ERROR_UPDATE    -4 /** Unable to update temperature */
+typedef struct{
+    int32_t (*update)(void *p);
+    int32_t (*read)(void *p, int32_t *temp);
+}temperatureDriver_t;
+
 //=============================================================================
 
 //=============================================================================
@@ -45,12 +42,14 @@ typedef struct{
 //-----------------------------------------------------------------------------
 int32_t temperatureInitialize(temperatureConfig_t *config);
 //-----------------------------------------------------------------------------
-int32_t temperatureUpdate(uint32_t sensor, uint32_t to);
+int32_t temperatureRegister(temperatureDriver_t *driver, uint32_t to);
 //-----------------------------------------------------------------------------
-int32_t temperatureGet(uint32_t sensor, int32_t *temp, uint32_t to);
+int32_t temperatureUpdate(int32_t idx, void *p, uint32_t to);
+//-----------------------------------------------------------------------------
+int32_t temperatureRead(int32_t idx, void *p, int32_t *temp, uint32_t to);
 //-----------------------------------------------------------------------------
 int32_t temperatureGetNumberSensors(void);
 //-----------------------------------------------------------------------------
 //=============================================================================
 
-#endif /* TEMPERATURE_H_ */
+#endif /* MDRIVERS_TEMPERATURE_H_ */

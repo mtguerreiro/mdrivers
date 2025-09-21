@@ -1,68 +1,70 @@
-/*
- * temperatureHw.c
- */
 
 //=============================================================================
 /*-------------------------------- Includes ---------------------------------*/
 //=============================================================================
-#include "temperatureHw.h"
+#include "ledpwm.h"
 
-#include "mhw/pico/onewire/onewirehl.h"
-#include "mdrivers/ds18b20/ds18b20.h"
+#include "pwm_irq_handler.h"
+
+#include "pico/stdlib.h"
+
+#include "hardware/pwm.h"
 //=============================================================================
 
 //=============================================================================
 /*------------------------------- Definitions -------------------------------*/
 //=============================================================================
+#define LED_PWM_CONFIG_PWM_PIN               0
+
+#define LED_PWM_CONFIG_PWM_SLICE             0
+#define LED_PWM_CONFIG_PWM_CLK_DIV           125.0f
+#define LED_PWM_CONFIG_PWM_TICK_PERIOD_US    ( (float)(LED_PWM_CONFIG_PWM_CLK_DIV / 125.f) )
 
 //=============================================================================
 
 //=============================================================================
-/*--------------------------------- Globals ---------------------------------*/
+/*-------------------------------- Prototypes -------------------------------*/
 //=============================================================================
-
+static void ledpwmInitializeHw(void);
 //=============================================================================
-
 
 //=============================================================================
 /*-------------------------------- Functions --------------------------------*/
 //=============================================================================
 //-----------------------------------------------------------------------------
-int32_t temperatureHwInitialize(void){
+int32_t ledpwmInitialize(void){
 
-    ds18b20Config_t dsconfig;
-
-    onewirehlInitialize(0, 10);
-
-    dsconfig.owReset = onewirehlReset;
-    dsconfig.owWrite = onewirehlWrite;
-    dsconfig.owRead = onewirehlRead;
-
-    ds18b20Initialize(&dsconfig);
+    ledpwmInitializeHw();
 
     return 0;
 }
 //-----------------------------------------------------------------------------
-int32_t temperatureHwUpdate(uint32_t sensor){
+int32_t ledpwmSetIntensity(void *p, uint8_t intensity){
 
-    return ds18b20StartConversion(10000);
+    (void)p;
+
+    pwm_set_chan_level(LED_PWM_CONFIG_PWM_SLICE, PWM_CHAN_A, intensity);
+
+    return 0;
 }
 //-----------------------------------------------------------------------------
-int32_t temperatureHwGet(uint32_t sensor, int32_t *temp){
+//=============================================================================
 
-    int8_t tempdez;
-    int32_t status;
-
-    status = ds18b20ReadTemp(&tempdez, 10000);
-
-    *temp = (int32_t)tempdez;
-
-    return status;
-}
+//=============================================================================
+/*---------------------------- Static functions -----------------------------*/
+//=============================================================================
 //-----------------------------------------------------------------------------
-int32_t temperatureHwGetNumberSensors(void){
+static void ledpwmInitializeHw(void){
 
-    return 1;
+    gpio_set_function(LED_PWM_CONFIG_PWM_PIN, GPIO_FUNC_PWM);
+    
+    pwm_set_clkdiv(LED_PWM_CONFIG_PWM_SLICE, (float)LED_PWM_CONFIG_PWM_CLK_DIV);
+    
+    pwm_set_wrap(LED_PWM_CONFIG_PWM_SLICE, 100);
+
+    pwm_set_chan_level(LED_PWM_CONFIG_PWM_SLICE, PWM_CHAN_A, 0);
+
+    pwm_set_enabled(LED_PWM_CONFIG_PWM_SLICE, true);    
 }
 //-----------------------------------------------------------------------------
 //=============================================================================

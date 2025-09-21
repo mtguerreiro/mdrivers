@@ -54,7 +54,6 @@ typedef struct{
 /*--------------------------------- Globals ---------------------------------*/
 //=============================================================================
 static ledws2812Control_t gxlc = {.nActiveLeds = 5, .rgb = {0}};
-
 //=============================================================================
 
 //=============================================================================
@@ -65,11 +64,7 @@ static void ledws2812InitializeTimer(void);
 static void ledws2812TimerSet(uint16_t val);
 static void ledws2812TimerSetEnable(bool enable);
 
-static int32_t ledws2812SetNumberActiveLeds(uint32_t nleds);
-
 static void ledws2812UpdateColorPwmIrq(void);
-
-static int32_t ledws2812IfSetNumberActiveLeds(void *in, uint32_t insize, void **out, uint32_t maxoutsize);
 
 static inline void put_pixel(uint32_t pixel_grb) {
     pio_sm_put_blocking(pio0, 0, pixel_grb << 8u);
@@ -100,13 +95,10 @@ int32_t ledws2812Initialize(void){
     return 0;
 }
 //-----------------------------------------------------------------------------
-uint32_t ledws2812GetNumberLeds(void){
+int32_t ledws2812SetIntensity(void *p, uint8_t intensity){
 
-    return 1;
-}
-//-----------------------------------------------------------------------------
-int32_t ledws2812SetIntensity(uint8_t led, uint8_t intensity, uint32_t to){
-  
+    (void)p;
+
     if( intensity > LED_WS2812_CONFIG_MAX_INTENSITY ) intensity = LED_WS2812_CONFIG_MAX_INTENSITY;
 
     gxlc.ton = (uint16_t) ( ((float)intensity) / LED_WS2812_CONFIG_MAX_INTENSITY * LED_WS2812_CONFIG_LED_UPDATE_PER);
@@ -115,11 +107,13 @@ int32_t ledws2812SetIntensity(uint8_t led, uint8_t intensity, uint32_t to){
     return 0;
 }
 //-----------------------------------------------------------------------------
-int32_t ledws2812SetColor(uint8_t led, uint8_t red, uint8_t green, uint8_t blue, uint32_t to){
+int32_t ledws2812SetColor(void *p, uint8_t r, uint8_t g, uint8_t b){
 
-    gxlc.rgb[0] = red;
-    gxlc.rgb[1] = green;
-    gxlc.rgb[2] = blue;
+    (void)p;
+
+    gxlc.rgb[0] = r;
+    gxlc.rgb[1] = g;
+    gxlc.rgb[2] = b;
 
     return 0;
 }
@@ -163,31 +157,6 @@ static void ledws2812TimerSetEnable(bool enable){
 
     pwm_set_counter(LED_WS2812_CONFIG_PWM_SLICE, 0);
     pwm_set_enabled(LED_WS2812_CONFIG_PWM_SLICE, enable);
-}
-//-----------------------------------------------------------------------------
-static int32_t ledws2812SetNumberActiveLeds(uint32_t nleds){
-
-    if( nleds > LED_WS2812_CFG_MAX_ACTIVE_LEDS ) return -1;
-
-    gxlc.nActiveLeds = nleds;
-
-    return 0;
-}
-//-----------------------------------------------------------------------------
-static int32_t ledws2812IfSetNumberActiveLeds(void *in, uint32_t insize, void **out, uint32_t maxoutsize){
-
-    (void)maxoutsize;
-    int32_t status;
-
-    uint32_t nleds = *( (uint32_t *)in );
-
-    uint32_t *o = (uint32_t *)*out;
-
-    status = ledws2812SetNumberActiveLeds(nleds);
-
-    *o = status;
-
-    return 4;
 }
 //-----------------------------------------------------------------------------
 static void ledws2812UpdateColorPwmIrq(void){

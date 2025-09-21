@@ -1,6 +1,6 @@
 
-#ifndef MODULES_LED_H_
-#define MODULES_LED_H_
+#ifndef MDRIVERS_LED_H_
+#define MDRIVERS_LED_H_
 
 //=============================================================================
 /*-------------------------------- Includes ---------------------------------*/
@@ -12,28 +12,22 @@
 //=============================================================================
 /*------------------------------- Definitions -------------------------------*/
 //=============================================================================
+#define LED_CFG_MAX_LEDS        3
 
-typedef uint32_t (*ledHwGetNumberLeds_t)(void);
-typedef int32_t (*ledHwSetIntensity_t)(uint8_t led, uint8_t intensity, uint32_t to);
-typedef int32_t (*ledHwSetColor_t)(uint8_t led, uint8_t red, uint8_t green, uint8_t blue, uint32_t to);
-typedef int32_t (*ledLock_t)(uint32_t to);
-typedef int32_t (*ledUnlock_t)(void);
-typedef int32_t (*ledHwIf_t)(void *in, uint32_t insize, void **out, uint32_t maxoutsize);
+#define LED_ERROR_LOCK          -1 /** Unable to obtain lock */
+#define LED_ERROR_UNLOCK        -2 /** Unable to unlock */
+#define LED_ERROR_MAX_REACHED   -3 /** Unable to register new driver */
+#define LED_ERROR_INVALID_IDX   -4 /** Invalid index */
 
 typedef struct ledConfig_t{
-
-    ledHwGetNumberLeds_t hwGetNumberLeds;
-    ledHwSetIntensity_t hwSetIntensity;
-    ledHwSetColor_t hwSetColor;
-
-    ledLock_t lock;
-    ledUnlock_t unlock;
-
-    ledHwIf_t hwIf;
+    int32_t (*lock)(uint32_t timeout);
+    int32_t (*unlock)(void);
 }ledConfig_t;
 
-#define LED_ERROR_LOCK      -1 /** Unable to obtain lock */
-#define LED_ERROR_UNLOCK    -2 /** Unable to unlock */
+typedef struct ledDriver_t{
+    int32_t (*setColor)(void *p, uint8_t red, uint8_t green, uint8_t blue);
+    int32_t (*setIntensity)(void *p, uint8_t intensity);
+}ledDriver_t;
 //=============================================================================
 
 //=============================================================================
@@ -42,16 +36,14 @@ typedef struct ledConfig_t{
 //-----------------------------------------------------------------------------
 int32_t ledInitialize(ledConfig_t *config);
 //-----------------------------------------------------------------------------
+int32_t ledRegister(ledDriver_t *driver, uint32_t to);
+//-----------------------------------------------------------------------------
+int32_t ledSetIntensity(int32_t idx, void*p, uint8_t intensity, uint32_t to);
+//-----------------------------------------------------------------------------
+int32_t ledSetColor(int32_t idx, void*p, uint8_t r, uint8_t g, uint8_t b, uint32_t to);
+//-----------------------------------------------------------------------------
 uint32_t ledGetNumberLeds(void);
-//-----------------------------------------------------------------------------
-int32_t ledSetIntensity(uint8_t led, uint8_t intensity, uint32_t to);
-//-----------------------------------------------------------------------------
-int32_t ledSetColor(uint8_t led, uint8_t red, uint8_t green, uint8_t blue, uint32_t to);
-//-----------------------------------------------------------------------------
-int32_t ledInterface(
-    void *in, uint32_t insize, 
-    void **out, uint32_t maxoutsize);
 //-----------------------------------------------------------------------------
 //=============================================================================
 
-#endif /* MODULES_LED_H */
+#endif /* MDRIVERS_LED_H */

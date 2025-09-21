@@ -1,21 +1,17 @@
-/*
- * @file rp.c
- *
- * @brief Request processor (RP).
- */
+
+#ifndef PI_ZERO_2W_LED_PWM_H_
+#define PI_ZERO_2W_LED_PWM_H_
 
 //=============================================================================
 /*-------------------------------- Includes ---------------------------------*/
 //=============================================================================
-#include "rp.h"
+#include "stdint.h"
 
-#include "string.h"
-//=============================================================================
+//============================================================================
 
 //=============================================================================
 /*------------------------------- Definitions -------------------------------*/
 //=============================================================================
-
 
 //=============================================================================
 
@@ -23,45 +19,12 @@
 /*-------------------------------- Functions --------------------------------*/
 //=============================================================================
 //-----------------------------------------------------------------------------
-void rpInitialize(rpctx_t *rp, rpuint_t maxid, rphandle_t *buffer){
-
-    uint32_t i;
-
-    rp->handle = buffer;
-    rp->maxid = maxid;
-
-    for( i = 0; i < maxid; i++ ){
-        rp->handle[i] = 0;
-    }
-}
+int32_t ledpwmInitialize(void);
 //-----------------------------------------------------------------------------
-rpint_t rpRegisterHandle(rpctx_t *rp, rpid_t id, rphandle_t handle){
-
-    if( id >= rp->maxid ) return RP_ERR_INVALID_ID;
-
-    rp->handle[id] = handle;
-
-    return 0;
-}
+uint32_t ledpwmGetNumberLeds(void);
 //-----------------------------------------------------------------------------
-rpint_t rpRequest(rpctx_t *rp, void *in, rpuint_t insize, void **out, rpuint_t maxoutsize){
-
-    char *p;
-    rpint_t status;
-    rpuint_t cmd;
-
-    if( insize < sizeof(cmd) ) return RP_ERR_INVALID_SIZE;
-
-    memcpy( (void *)&cmd, in, sizeof(cmd) );
-
-    if( cmd >= rp->maxid ) return RP_ERR_INVALID_ID;
-
-    if( rp->handle[cmd] == 0 ) return RP_ERR_NO_HANDLE;
-
-    p = (char *)in + sizeof(cmd);
-    status = rp->handle[cmd]( (void *)p, insize - sizeof(cmd), out, maxoutsize);
-
-    return status;
-}
+int32_t ledpwmSetIntensity(uint8_t led, uint8_t intensity, uint32_t to);
 //-----------------------------------------------------------------------------
 //=============================================================================
+
+#endif /* PI_ZERO_2W_LED_PWM_H_ */

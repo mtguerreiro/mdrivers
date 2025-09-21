@@ -5,18 +5,17 @@ add_library(my_hw)
 target_sources(
     my_hw
     PRIVATE
-    temperatureHw.c
+    temperatureDs18b20.c
     pwm_irq_handler.c
-    onewire/onewirehl.c
-    onewire/onewire.c
+    onewirehl.c
     wiznet_init.c
 )
 
 target_sources(
     my_hw
     PRIVATE
-    led/ledws2812.c
-    led/ledpwm.c
+    ledws2812.c
+    ledpwm.c
 )
 
 target_link_libraries(
@@ -37,6 +36,10 @@ target_include_directories(
     ./
 )
 
-pico_generate_pio_header(my_hw ${CMAKE_CURRENT_LIST_DIR}/ws2812.pio OUTPUT_DIR ${CMAKE_CURRENT_LIST_DIR}/generated)
+target_include_directories(
+    my_hw
+    PUBLIC
+    ./
+)
 
-pico_generate_pio_header(my_hw ${CMAKE_CURRENT_LIST_DIR}/onewire.pio OUTPUT_DIR ${CMAKE_CURRENT_LIST_DIR}/generated)
+pico_generate_pio_header(my_hw ${CMAKE_CURRENT_LIST_DIR}/ws2812.pio OUTPUT_DIR ${CMAKE_CURRENT_LIST_DIR}/generated)
