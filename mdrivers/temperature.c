@@ -33,17 +33,15 @@ int32_t temperatureRegister(temperatureDriver_t *driver, uint32_t to){
 
     int32_t idx;
 
-    if( lock && (lock(to) != 0) )
-        return TEMPERATURE_ERROR_LOCK;
-
     if( n >= TEMPERATURE_CFG_MAX_SENSORS ) return TEMPERATURE_ERROR_MAX_REACHED;
+
+    if( lock && (lock(to) != 0) ) return TEMPERATURE_ERROR_LOCK;
 
     sensors[n] = *driver;
     idx = (int32_t) n;
     n++;
 
-    if( unlock && (unlock() != 0) )
-        return TEMPERATURE_ERROR_UNLOCK;
+    if( unlock && (unlock() != 0) ) return TEMPERATURE_ERROR_UNLOCK;
 
     return idx;
 }
@@ -52,17 +50,14 @@ int32_t temperatureUpdate(int32_t idx, void *p, uint32_t to){
 
     int32_t status = 0;
 
-    if( lock && (lock(to) != 0) )
-        return TEMPERATURE_ERROR_LOCK;
-
     if( idx < 0 ) return TEMPERATURE_ERROR_INVALID_IDX;
     if( idx >= (int32_t) n ) return TEMPERATURE_ERROR_MAX_REACHED;
 
-    if( sensors[idx].update )
-        status = sensors[idx].update(p);
+    if( lock && (lock(to) != 0) ) return TEMPERATURE_ERROR_LOCK;
 
-    if( unlock && (unlock() != 0) )
-        return TEMPERATURE_ERROR_UNLOCK;
+    if( sensors[idx].update ) status = sensors[idx].update(p);
+
+    if( unlock && (unlock() != 0) ) return TEMPERATURE_ERROR_UNLOCK;
 
     return status;
 }
@@ -71,20 +66,16 @@ int32_t temperatureRead(int32_t idx, void *p, int32_t *temp, uint32_t to){
 
     int32_t status = 0;
 
-    if( lock && (lock(to) != 0) )
-        return TEMPERATURE_ERROR_LOCK;
-
     if( idx < 0 ) return TEMPERATURE_ERROR_INVALID_IDX;
     if( idx >= (int32_t) n ) return TEMPERATURE_ERROR_MAX_REACHED;
 
-    if( sensors[idx].read )
-        status = sensors[idx].read(p, temp);
+    if( lock && (lock(to) != 0) ) return TEMPERATURE_ERROR_LOCK;
 
-    if( unlock && (unlock() != 0) )
-        return TEMPERATURE_ERROR_UNLOCK;
+    if( sensors[idx].read ) status = sensors[idx].read(p, temp);
+
+    if( unlock && (unlock() != 0) ) return TEMPERATURE_ERROR_UNLOCK;
 
     return status;
-
 }
 //-----------------------------------------------------------------------------
 int32_t temperatureGetNumberSensors(void){
