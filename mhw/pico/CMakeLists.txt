@@ -33,6 +33,7 @@ target_include_directories(
     my_hw
     PRIVATE
     "${MDRIVERS_PATH}"
+    "${MDRIVERS_PATH}/clogging"
 )
 
 target_include_directories(

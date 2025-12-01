@@ -12,6 +12,18 @@
 #include "mdrivers/wiznet/dhcp.h"
 #include "mdrivers/wiznet/socket.h"
 #include "mdrivers/wiznet/wizchip_conf.h"
+
+#include "logging_levels.h"
+
+/* Logging configuration for the Demo. */
+#ifndef LIBRARY_LOG_NAME
+#define LIBRARY_LOG_NAME    "Pico WIZnet Init"
+#endif
+
+#ifndef LIBRARY_LOG_LEVEL
+#define LIBRARY_LOG_LEVEL    LOG_INFO
+#endif
+#include "logging_stack.h"
 //=============================================================================
 
 //=============================================================================
@@ -116,9 +128,9 @@ static void wiznetInitW5500(wiznetInitLock_t lock, wiznetInitUnlock_t unlock){
     #endif
 
     #if WIZNET_INIT_CFG_DBG == 1
-    printf("IP Address: %d.%d.%d.%d\n", gWIZNETINFO.ip[0], gWIZNETINFO.ip[1], gWIZNETINFO.ip[2], gWIZNETINFO.ip[3]);
-    printf("Subnet Mask: %d.%d.%d.%d\n", gWIZNETINFO.sn[0], gWIZNETINFO.sn[1], gWIZNETINFO.sn[2], gWIZNETINFO.sn[3]);
-    printf("Gateway: %d.%d.%d.%d\n", gWIZNETINFO.gw[0], gWIZNETINFO.gw[1], gWIZNETINFO.gw[2], gWIZNETINFO.gw[3]);
+    LogInfo(( "IP Address: %d.%d.%d.%d", gWIZNETINFO.ip[0], gWIZNETINFO.ip[1], gWIZNETINFO.ip[2], gWIZNETINFO.ip[3] ));
+    LogInfo(( "Subnet Mask: %d.%d.%d.%d", gWIZNETINFO.sn[0], gWIZNETINFO.sn[1], gWIZNETINFO.sn[2], gWIZNETINFO.sn[3] ));
+    LogInfo(( "Gateway: %d.%d.%d.%d", gWIZNETINFO.gw[0], gWIZNETINFO.gw[1], gWIZNETINFO.gw[2], gWIZNETINFO.gw[3] ));
     #endif
 }
 //-----------------------------------------------------------------------------
@@ -147,7 +159,7 @@ static void wiznetInitW5500DHCP(void){
     while(1){
         dhcpStatus = DHCP_run();
 
-        printf("Running DHCP\n\r");
+        LogInfo(( "Running DHCP" ));
 
         if(dhcpStatus == DHCP_IP_LEASED) break;
 
@@ -174,7 +186,7 @@ static void wiznetInitW5500IPAssignCB(void){
 //-----------------------------------------------------------------------------
 static void wiznetInitW5500IPConflictCB(void){
 #if WIZNET_INIT_CFG_DBG == 1
-    printf("CONFLICT IP from DHCP\r\n");
+    LogInfo(( "CONFLICT IP from DHCP" ));
 #endif
     //halt or reset or any...
     while(1); // this example is halt.
